@@ -1,44 +1,61 @@
 package tests;
 
+import com.github.javafaker.Faker;
 import helpers.BaseTestSettings;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 
+import static utils.RandomDataGenerator.*;
+
 public class StudentRegistrationFormTest extends BaseTestSettings {
 
     RegistrationPage registrationPage = new RegistrationPage();
+    Faker faker = new Faker();
+
+    String randomFirstName = faker.name().firstName(),
+            randomLastName = faker.name().lastName(),
+            randomEmail = faker.internet().emailAddress(),
+            randomGender = getRandomGender(),
+            randomPhoneNumber = faker.phoneNumber().subscriberNumber(10),
+            randomDay = getRandomDay(),
+            randomMonth = getRandomMonth(),
+            randomYear = getRandomYear(),
+            randomSubjects = getRandomSubject(),
+            randomHobbies = getRandomHobbie(),
+            randomAddress = faker.address().fullAddress(),
+            randomState = getRandomState(),
+            randomCity = getRandomCity(randomState);
 
     @Test
     void testCompleteRegistrationForm() {
 
         registrationPage
                 .openPage()
-                .setFirstName("Тест")
-                .setLastName("Тестов")
-                .setEmail("test@test.test")
-                .setGender("Male")
-                .setPhone("9010000001")
-                .setDateOfBirth("31", "March", "2000")
-                .setSubject("Computer Science")
-                .setSubject("Arts")
-                .setHobby("Sports")
+                .setFirstName(randomFirstName)
+                .setLastName(randomLastName)
+                .setEmail(randomEmail)
+                .setGender(randomGender)
+                .setPhone(randomPhoneNumber)
+                .setDateOfBirth(randomDay, randomMonth, randomYear)
+                .setSubject(randomSubjects)
+                .setHobby(randomHobbies)
                 .uploadPicture("Designer.png")
-                .setAddress("620620, Тестовая обл., г. Тестбург, ул. Тестина, д. 10")
-                .setState("Haryana")
-                .setCity("Panipat")
+                .setAddress(randomAddress)
+                .setState(randomState)
+                .setCity(randomCity)
                 .clickSubmit()
                 .checkResultWindowAppear();
 
-        registrationPage.checkResultModalWindowComponent("Student Name", "Тест Тестов")
-                .checkResultModalWindowComponent("Student Email", "test@test.test")
-                .checkResultModalWindowComponent("Gender", "Male")
-                .checkResultModalWindowComponent("Mobile", "9010000001")
-                .checkResultModalWindowComponent("Date of Birth", "31 March,2000")
-                .checkResultModalWindowComponent("Subjects", "Computer Science, Arts")
-                .checkResultModalWindowComponent("Hobbies", "Sports")
+        registrationPage.checkResultModalWindowComponent("Student Name", randomFirstName + " " + randomLastName)
+                .checkResultModalWindowComponent("Student Email", randomEmail)
+                .checkResultModalWindowComponent("Gender", randomGender)
+                .checkResultModalWindowComponent("Mobile", randomPhoneNumber)
+                .checkResultModalWindowComponent("Date of Birth", randomDay + " " + randomMonth + "," + randomYear)
+                .checkResultModalWindowComponent("Subjects", randomSubjects)
+                .checkResultModalWindowComponent("Hobbies", randomHobbies)
                 .checkResultModalWindowComponent("Picture", "Designer.png")
-                .checkResultModalWindowComponent("Address", "620620, Тестовая обл., г. Тестбург, ул. Тестина, д. 10")
-                .checkResultModalWindowComponent("State and City", "Haryana Panipat");
+                .checkResultModalWindowComponent("Address", randomAddress)
+                .checkResultModalWindowComponent("State and City", randomState + " " + randomCity);
     }
 
     @Test
@@ -46,16 +63,16 @@ public class StudentRegistrationFormTest extends BaseTestSettings {
 
         registrationPage
                 .openPage()
-                .setFirstName("Тест")
-                .setLastName("Тестов")
-                .setGender("Male")
-                .setPhone("9010000001")
+                .setFirstName(randomFirstName)
+                .setLastName(randomLastName)
+                .setGender(randomGender)
+                .setPhone(randomPhoneNumber)
                 .clickSubmit()
                 .checkResultWindowAppear();
 
-        registrationPage.checkResultModalWindowComponent("Student Name", "Тест Тестов")
-                .checkResultModalWindowComponent("Gender", "Male")
-                .checkResultModalWindowComponent("Mobile", "9010000001");
+        registrationPage.checkResultModalWindowComponent("Student Name", randomFirstName + " " + randomLastName)
+                .checkResultModalWindowComponent("Gender", randomGender)
+                .checkResultModalWindowComponent("Mobile", randomPhoneNumber);
     }
 
     @Test
@@ -72,8 +89,8 @@ public class StudentRegistrationFormTest extends BaseTestSettings {
 
         registrationPage
                 .openPage()
-                .setGender("Male")
-                .setPhone("9010000001")
+                .setGender(randomGender)
+                .setPhone(randomPhoneNumber)
                 .clickSubmit()
                 .checkResultWindowAbsent();
     }
