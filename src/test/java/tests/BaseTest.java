@@ -1,9 +1,9 @@
-package helpers;
+package tests;
 
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 
-public class BaseTestSettings {
+public class BaseTest {
 
     @BeforeAll
     static void beforeAll() {

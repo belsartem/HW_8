@@ -1,13 +1,12 @@
 package tests;
 
 import com.github.javafaker.Faker;
-import helpers.BaseTestSettings;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 
 import static utils.RandomDataGenerator.*;
 
-public class StudentRegistrationFormTest extends BaseTestSettings {
+public class StudentRegistrationFormTest extends BaseTest {
 
     RegistrationPage registrationPage = new RegistrationPage();
     Faker faker = new Faker();
